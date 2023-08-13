@@ -33,12 +33,13 @@ public class HallController {
 		return "halls";
 	}
 	
+//	In @GetMapping, @ModelAttribute -> Needed when adding not editing
 	@GetMapping("/halls/new")
 	public String newHallPage(
 			@ModelAttribute("newHall") Hall newHall // @ModelAttribute("thisName") <-- this name needs to match to what declare in JSP file
 			, Model viewModel
 			) { 
-		viewModel.addAttribute("universities", universityServ.getAllUniversities());
+		viewModel.addAttribute("universities", universityServ.getAllUniversities()); // To get list of universities for drop down menu
 		return "newHall";
 	}
 	
@@ -48,9 +49,12 @@ public class HallController {
 		return "viewOneHall";
 	}
 	
+//	In @GetMapping, @ModelAttribute -> Needed when adding not editing
 	@GetMapping("/halls/{id}/edit")
-	public String editHallPage(@PathVariable("id") Long id) {
-		return null;
+	public String editHallPage(@PathVariable("id") Long id, Model viewModel) {
+		viewModel.addAttribute("editHall", hallServ.getHallById(id));
+		viewModel.addAttribute("universities", universityServ.getAllUniversities()); // To get list of universities for drop down menu
+		return "editHall";
 	}
 	
 	/* ===== PROCESS PAGE ROUTES ===== */
@@ -62,7 +66,7 @@ public class HallController {
 			, Model viewModel
 			) {
 		if(result.hasErrors()) {
-			viewModel.addAttribute("universities", universityServ.getAllUniversities());
+			viewModel.addAttribute("universities", universityServ.getAllUniversities()); // To get list of universities for drop down menu
 			return "newHall";
 		}
 		hallServ.createHall(newHall);
@@ -71,13 +75,25 @@ public class HallController {
 	
 //	Edit a hall in database
 	@PutMapping("/halls/{id}/edit")
-	public String editHall(@PathVariable("id") Long id) {
-		return "redirect:/halls";
+	public String editHall(
+			@PathVariable("id") Long id
+			, @Valid @ModelAttribute("editHall") Hall editHall // @ModelAttribute("thisName") <-- this name needs to match to what declare in JSP file
+			, BindingResult result
+			, Model viewModel
+			) {
+		if(result.hasErrors()) {
+			viewModel.addAttribute("universities", universityServ.getAllUniversities()); // To get list of universities for drop down menu
+			return "editHall";
+		}
+		hallServ.updateHall(editHall);
+		return "redirect:/halls/"+id;
 	}
 	
 //	Delete a hall from database
 	@RequestMapping(value = "/halls/{id}/delete", method = {RequestMethod.GET, RequestMethod.DELETE})
 	public String deleteHall(@PathVariable("id") Long id) {
+		hallServ.deleteHall(id);
 		return "redirect:/halls";
 	}
+	
 }

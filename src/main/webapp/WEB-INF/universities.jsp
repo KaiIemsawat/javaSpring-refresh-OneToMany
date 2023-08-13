@@ -26,10 +26,11 @@
 		<table class="table">
 			<thead>
 				<tr>
-				 <td>ID</td>
-				 <td>University Name</td>
-				 <td>City</td>
-				 <td>Actions</td>
+				 <th>ID</th>
+				 <th>University Name</th>
+				 <th>Number of halls</th>
+				 <th>City</th>
+				 <th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,6 +38,7 @@
 					<tr>
 						<td><c:out value="${university.id}"/></td>
 						<td><c:out value="${university.name}"/></td>
+						<td><c:out value="${university.halls.size()}"/></td>
 						<td><c:out value="${university.city}"/></td>
 						<td>
 							<a href="/universities/${university.id}" class="btn btn-primary">View</a>

@@ -26,6 +26,13 @@
 		<p>Offer in-person class : <c:out value="${thisUniversity.isInPerson}"/></p>
 		<p>Enrollment : <c:out value="${thisUniversity.enrollment}"/></p>
 		<p>Year of established : <c:out value="${thisUniversity.yearFounded}"/></p>
+		<p>List of halls : </p>
+		<ul>
+			<c:forEach var="eachHall" items="${thisUniversity.halls}">
+				<li><c:out value="${eachHall.hallName }"></c:out></li>
+			</c:forEach>
+		
+		</ul>
 	</div>
 </body>
 </html>

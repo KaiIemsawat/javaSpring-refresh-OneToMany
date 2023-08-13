@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div>
-		<h1>Add a Hall</h1>
+		<h1>All Halls</h1>
 		<a href="universities" class="btn btn-primary">All Universities</a>
 			<table class="table">
 			<thead>

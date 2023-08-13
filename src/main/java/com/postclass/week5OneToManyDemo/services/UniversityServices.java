@@ -6,13 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.postclass.week5OneToManyDemo.models.Hall;
 import com.postclass.week5OneToManyDemo.models.University;
+import com.postclass.week5OneToManyDemo.repositories.HallRepo;
 import com.postclass.week5OneToManyDemo.repositories.UniversityRepo;
 
 @Service
 public class UniversityServices {
 	@Autowired
 	private UniversityRepo universityRepo;
+	
+	@Autowired
+	private HallRepo hallRepo;
 
 	/* METHODS TO INTERACT WITH REPOSITORY */
 	
@@ -36,13 +41,13 @@ public class UniversityServices {
 	public University getOneUniversity (Long id) {
 		Optional<University> optionalUniversity = universityRepo.findById(id);
 		
-		/* Use these lines*/
+		/* Use these lines */
 //		if(optionalUniversity.isPresent()) {
 //			return optionalUniversity.get();
 //		}
 //		else return null;
 		
-		/* or*/
+		/* or */
 		return optionalUniversity.orElseGet(() -> null);
 		
 	}
@@ -54,8 +59,12 @@ public class UniversityServices {
 	
 //	Delete a university
 	public void deleteUniversity(Long id) {
+//		Disconnect all halls from this University
+		University thisUniversity = this.getOneUniversity(id);
+		for (Hall eachHall : thisUniversity.getHalls()) { // For each hall that is assigned to this university,
+			eachHall.setUniversity(null); // Reassign each hall to null
+			hallRepo.save(eachHall); // Save the updated hall (with no university assign to)
+		}
 		universityRepo.deleteById(id);
 	}
 }
-
-

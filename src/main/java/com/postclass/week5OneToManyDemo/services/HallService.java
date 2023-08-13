@@ -41,4 +41,14 @@ public class HallService {
 //			 return null;
 //		 }
 	}
+	
+//	Update a hall
+	public Hall updateHall(Hall changedHall) {
+		return hallRepo.save(changedHall);
+	}
+	
+//	Delete a hall
+	public void deleteHall(Long id) {
+		hallRepo.deleteById(id);
+	}
 }

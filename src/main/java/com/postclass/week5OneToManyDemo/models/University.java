@@ -3,6 +3,7 @@ package com.postclass.week5OneToManyDemo.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,7 +72,12 @@ public class University {
 	
 	/* ============ RELATIONSHIP ============ */
 //	mappedBy = "thisValue" <-- thisValue came from the one in one to many
-	@OneToMany(mappedBy = "university", fetch = FetchType.LAZY)
+
+	@OneToMany(
+			mappedBy = "university"
+			, fetch = FetchType.LAZY
+//			, cascade = CascadeType.ALL //	cascade = CascadeType.ALL <-- if a university is delete, all halls that belong to the university will be gone
+			)
 	private List<Hall> halls;
 	
 

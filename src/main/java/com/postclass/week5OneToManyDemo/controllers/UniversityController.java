@@ -23,6 +23,7 @@ public class UniversityController {
 	@Autowired
 	private UniversityServices universityService;
 	
+	/* ===== SERVICES ===== */
 	@GetMapping("/")
 	public String homeRoute() {
 		return "redirect:/universities";
@@ -66,11 +67,13 @@ public class UniversityController {
 	
 //	Page that display edit form
 	@GetMapping("/universities/{id}/edit")
-	public String editUniversityPage(@PathVariable Long id, Model viewModel) { // GET method, can use Model viewModel not @ModelAttribute()
+	public String editUniversityPage(@PathVariable("id") Long id, Model viewModel) { // GET method, can use Model viewModel not @ModelAttribute()
 		viewModel.addAttribute("thisUniversity", universityService.getOneUniversity(id)); // <-- viewModel.addAttribute("thisName") thisName need to be same as in newUniversity.jsp file
 		return "editUniversity";
 	}
 	
+	
+	/* ===== PROCESSES ===== */
 //	PUT request route to edit university
 	@PutMapping("/universities/{id}/edit")
 	public String editUniversity(
